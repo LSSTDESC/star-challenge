@@ -7,7 +7,7 @@ Each subdirectory will contain a certain sample and we will record steps for its
 
 - `cosmodc2-srd-sample` - SRD-like sample from CosmoDC2
 - `cosmodc2-redmagic-sample` - CosmoDC2 sample that uses redmagic as lenses
-- `dc2-lss-sample` - DC2 sample used for LSS project
+- `dc2-lss-sample` - DC2 sample used for LSS project #91
 
 Under each sample, we record in subdirectories:
 
