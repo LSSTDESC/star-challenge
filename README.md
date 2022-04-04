@@ -5,4 +5,4 @@ This repo is work in progress and will record how we made and where we put files
 
 These subdirectories will record steps:
 
-- `srd-sample/generation` - generation of the SRD-like sample.
+- `cosmodc2-srd-sample/generation` - generation of the SRD-like sample from CosmoDC2.
