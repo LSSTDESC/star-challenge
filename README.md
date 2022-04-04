@@ -13,4 +13,4 @@ Under each sample, we record in subdirectories:
 
 - `generation` - basic information and generation of the samples
 - `photo-z` - information about training set and n(z)
-- `data-vevtor` - information about running TXPipe to obtain data vectors and covariances
+- `data-vector` - information about running TXPipe to obtain data vectors and covariances
