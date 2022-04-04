@@ -1,20 +1,13 @@
-# SRD Sample Generation
+# Sample Generation
 
 ## Basic Information
 
-On this page we provide details of galaxy samples that are defined via SRD. This catalog is based on CosmoDC2 and is fairly idealistic in order to test TXPipe at a high precision. 
-
-The samples use emulated noise on both the shears and magnitudes. The source sample is `T/Tpsf>0.5` and `SNR>10` and the lens sample is selected using `mag_i < 24`.  Both use a random forest selection for the tomography (5 source bins, 5 lens bins),
-
-Sam has noted that this yields a sample with deeper u-band than expected.
-
+On this page we provide details of galaxy samples that are first used in the CosmoDC2-TXPipe project. This might later be replaced by the cosmodc2-srd-sample. The main difference with that sample is the use of redmagic as the lenses and more source bins. 
 
 Area: 441.279 sq. deg.
 
 Cosmology: https://github.com/LSSTDESC/TXPipe/blob/master/data/fiducial_cosmology.yml
-
-NERSC Location: /global/projecta/projectdirs/lsst/groups/WL/users/zuntz/star-challenge
-
+NERSC Location: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/cosmodc2_txpipe_outputs/
 
 
 ## Data Access
@@ -28,23 +21,6 @@ In the directory above we provide source and lens catalogs in tomographic bins, 
     nz_lens.png
     nz_source.png  
 
-
-### Reading the shape catalog
-
-    import h5py
-    dirname = '/global/projecta/projectdirs/lsst/groups/WL/users/zuntz/star-challenge/'
-    f = h5py.File(dirname + 'binned_shear_catalog.hdf5', 'r')
-
-    for i in range(5):
-        group = shearcat[f"shear/bin_{i}"]
-        ra = group['ra'][:]
-        dec = group['dec'][:]
-        mag_r = group['mag_r'][:]
-        mag_r_err = group['mag_r_err'][:]
-        z_true = group['redshift_true'][:]
-        weight = group['weight'][:]
-
-etc. You can get a column list using the command `h5ls -r` on either file
 
 ### Reading the truth n(z)
 
@@ -98,6 +74,6 @@ This one is parallelizable.  From the TXPipe directory:
 
     salloc --nodes 1 --qos interactive --time 02:00:00 --constraint haswell
     source /global/cfs/cdirs/lsst/groups/WL/users/zuntz/setup-txpipe
-    tx ceci examples/star-challenge/sample-for-pz.yml
+    tx ceci examples/XXXX
 
-It will make files in `data/star-challenge/outputs`.  Copies of the smaller output files (n(z) data and plots) are included in this repo directory.
+It will make files in `data/XXX/outputs`.  Copies of the smaller output files (n(z) data and plots) are included in this repo directory.
