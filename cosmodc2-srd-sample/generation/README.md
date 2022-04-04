@@ -1,4 +1,4 @@
-# SRD Sample Generation
+# Sample Generation
 
 ## Basic Information
 
