@@ -7,6 +7,7 @@ On this page we provide details of galaxy samples that are first used in the Cos
 Area: 441.279 sq. deg.
 
 Cosmology: https://github.com/LSSTDESC/TXPipe/blob/master/data/fiducial_cosmology.yml
+
 NERSC Location: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/cosmodc2_txpipe_outputs/
 
 
