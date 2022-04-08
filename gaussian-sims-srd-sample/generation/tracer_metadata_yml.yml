@@ -1,0 +1,316 @@
+provenance:
+  config/config: examples/gaussian_sims/config.yml
+  config/cprofile: ''
+  config/lens_tomography_catalog: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/022422/12300area/TXPipe_inputs/lens_tomography_catalog.hdf5
+  config/mask: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/022422/12300area/TXPipe_inputs/mask.hdf5
+  config/memmon: '0'
+  config/mpi: 'False'
+  config/name: TXTracerMetadata
+  config/pdb: 'False'
+  config/shear_catalog: data/gaussian_sims/outputs_gaussian_sims/gaussian_sims_srdnzs_fullsky/022422/12300area/2022/March2//shear_catalog.hdf5
+  config/shear_catalog_type: metadetect
+  config/shear_tomography_catalog: data/gaussian_sims/outputs_gaussian_sims/gaussian_sims_srdnzs_fullsky/022422/12300area/2022/March2//shear_tomography_catalog.hdf5
+  config/stage_name: TXTracerMetadata
+  config/tracer_metadata: data/gaussian_sims/outputs_gaussian_sims/gaussian_sims_srdnzs_fullsky/022422/12300area/2022/March2//tracer_metadata.hdf5
+  config/tracer_metadata_yml: data/gaussian_sims/outputs_gaussian_sims/gaussian_sims_srdnzs_fullsky/022422/12300area/2022/March2//tracer_metadata_yml.yml
+  creation: '2022-03-02T23:55:35.306137'
+  domain: nid00244
+  gitdiff: "diff --git a/examples/cosmodc2/config.yml b/examples/cosmodc2/config.yml\n\
+    index b0e23f2..1dba689 100644\n--- a/examples/cosmodc2/config.yml\n+++ b/examples/cosmodc2/config.yml\n\
+    @@ -150,8 +150,8 @@ TXTwoPoint:\n \n TXTwoPointFourier:\n     chunk_rows: 100000\n\
+    -    flip_g2: True\n     flip_g1: True\n+    flip_g2: True\n     apodization_size:\
+    \ 0.0\n     cache_dir: ./cache\n     true_shear: False\ndiff --git a/examples/gaussian_sims/config.yml\
+    \ b/examples/gaussian_sims/config.yml\nindex bec05eb..f8815e0 100644\n--- a/examples/gaussian_sims/config.yml\n\
+    +++ b/examples/gaussian_sims/config.yml\n@@ -9,7 +9,7 @@ TXExposureInfo:\n   \
+    \  dc2_name: '1.2p'\n \n TXGaussianSimsMock:\n-    cat_name: '/global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/shearcat_shearalm_allbins_ra_dec_g1_g2_and_fakecols_areacut.npy'\n\
+    +    cat_name: '/global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/022422/12300area/shearcat_shearalm_allbins_ra_dec_g1_g2_and_fakecols_areacut.npy'\n\
+    \     visits_per_band: 16\n     extra_cols: redshift_true size_true shear_1 shear_2\
+    \ \n     flip_g2: False # opposite of cosmodc2\n@@ -79,7 +79,7 @@ TXSourceSelectorMetadetect:\n\
+    \ \n TXRandomCat:\n     chunk_rows: 10000000 \n-    density: 30 # gals per sq\
+    \ arcmin\n+    density: 5 # gals per sq arcmin\n \n TXJackknifeCenters:\n    \
+    \ npatch: 500\n@@ -92,32 +92,18 @@ TXFourierGaussianCovariance:\n \n TXRealGaussianCovariance:\n\
+    \     min_sep: 2.5\n-    max_sep: 100.\n-    nbins: 15\n+    max_sep: 250.\n+\
+    \    nbins: 20\n     use_true_shear: False\n     nprocess: 4\n     threads_per_process:\
+    \ 2\n     nodes: 4\n     galaxy_bias: [1., 1., 1., 1., 1.]\n \n-TXTwoPoint:\n\
+    -    bin_slop: 0.0\n-    delta_gamma: 0.02\n-    do_pos_pos: True\n-    do_shear_shear:\
+    \ True\n-    do_shear_pos: True\n-    flip_g2: True  # use true when using metacal\
+    \ shears\n-    min_sep: 2.5\n-    max_sep: 100\n-    nbins: 15\n-    verbose:\
+    \ 0\n-    var_method: jackknife\n-    low_mem: True\n-    \n TXTwoPointFourier:\n\
+    \     chunk_rows: 100000\n-    flip_g1: True\n-    flip_g2: True\n+    flip_g1:\
+    \ False\n+    flip_g2: False\n     apodization_size: 0.0\n     cache_dir: ./cache\n\
+    \     true_shear: False\n@@ -125,6 +111,22 @@ TXTwoPointFourier:\n     ell_max:\
+    \ 3000\n     nside: 2048\n     analytic_noise: True\n+\n+TXTwoPoint:\n+    bin_slop:\
+    \ 0.0\n+    delta_gamma: 0.02\n+    do_pos_pos: True\n+    do_shear_shear: True\n\
+    +    do_shear_pos: True\n+    flip_g1: True  \n+    flip_g2: False\n+    min_sep:\
+    \ 2.5\n+    max_sep: 250\n+    nbins: 20\n+    verbose: 0\n+    var_method: jackknife\n\
+    +    low_mem: False\n+    chunk_rows: 1000000\n     \n TXClusteringNoiseMaps:\n\
+    \     n_realization: 30\ndiff --git a/examples/gaussian_sims/pipeline_gaussian_sims.yml\
+    \ b/examples/gaussian_sims/pipeline_gaussian_sims.yml\nindex 35a3676..a1fcdb1\
+    \ 100644\n--- a/examples/gaussian_sims/pipeline_gaussian_sims.yml\n+++ b/examples/gaussian_sims/pipeline_gaussian_sims.yml\n\
+    @@ -14,6 +14,9 @@ python_paths:\n     - submodules/FlexZPipe\n \n stages:\n+ \
+    \   - name: TXGaussianSimsMock\n+      nprocess: 1\n+      threads_per_process:\
+    \ 20\n     - name: TXRandomCat\n       nodes: 4\n       nprocess: 64\n@@ -43,7\
+    \ +46,7 @@ stages:\n     - name: TXDensityMaps\n     - name: TXNullBlinding\n\
+    \     - name: TXTwoPoint\n-      threads_per_process: 6\n+      threads_per_process:\
+    \ 32\n       nprocess: 6\n       nodes: 6\n     - name: TXTwoPointTheoryReal\n\
+    @@ -62,7 +65,7 @@ stages:\n     - name: TXTwoPointFourier\n       nprocess: 4\n\
+    \       nodes: 4\n-      threads_per_process: 64\n+      threads_per_process:\
+    \ 32\n     - name: TXFourierGaussianCovariance\n       threads_per_process: 64\n\
+    \     - name: TXConvergenceMaps    # Make convergence kappa maps from g1, g2 maps\n\
+    @@ -71,7 +74,7 @@ stages:\n     - name: TXTwoPointPlotsFourier \n \n \n-output_dir:\
+    \ data/gaussian_sims/outputs_gaussian_sims/gaussian_sims_srdnzs_fullsky/012922/area12300/without_shape_noise/2022/Feb4/\n\
+    +output_dir: data/gaussian_sims/outputs_gaussian_sims/gaussian_sims_srdnzs_fullsky/022422/12300area/2022/March2/\n\
+    \ config: examples/gaussian_sims/config.yml\n \n # On NERSC, set this before running:\n\
+    @@ -79,16 +82,14 @@ config: examples/gaussian_sims/config.yml\n \n inputs:\n \
+    \    # See README for paths to download these files\n-    shear_catalog:  /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/TXPipe_inputs/no_shape_noise/shear_catalog.hdf5\n\
+    -    photometry_catalog:  /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/TXPipe_inputs/no_shape_noise/photometry_catalog.hdf5\n\
+    -    lens_catalog:  /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/TXPipe_inputs/lens_catalog.hdf5\n\
+    -    lens_tomography_catalog: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/TXPipe_inputs/lens_tomography_catalog.hdf5\n\
+    -    lens_photoz_stack: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/TXPipe_inputs/lens_photoz_stack.hdf5\
+    \ \n-    shear_photoz_stack: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/TXPipe_inputs/shear_photoz_stack.hdf5\
+    \ \n+    lens_catalog:  /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/022422/12300area/TXPipe_inputs/lens_catalog.hdf5\n\
+    +    lens_tomography_catalog: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/022422/12300area/TXPipe_inputs/lens_tomography_catalog.hdf5\n\
+    +    lens_photoz_stack: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/022422/12300area/TXPipe_inputs/lens_photoz_stack.hdf5\
+    \ \n+    shear_photoz_stack: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/022422/12300area/TXPipe_inputs/shear_photoz_stack.hdf5\
+    \ \n     fiducial_cosmology: data/fiducial_cosmology.yml\n     calibration_table:\
+    \  /global/projecta/projectdirs/lsst/groups/WL/users/zuntz/data/cosmoDC2-1.1.4_oneyear_unit_response/sample_cosmodc2_w10year_errors.dat\n\
+    \     response_model: /global/projecta/projectdirs/lsst/groups/WL/users/zuntz/data/DESY1-R-model.hdf5\
+    \ \n-    mask:  /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/TXPipe_inputs/mask.hdf5\n\
+    +    mask:  /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/022422/12300area/TXPipe_inputs/mask.hdf5\n\
+    \ \n \n resume: True\ndiff --git a/examples/gaussian_sims/pipeline_gaussian_sims_inputcats.yml\
+    \ b/examples/gaussian_sims/pipeline_gaussian_sims_inputcats.yml\ndeleted file\
+    \ mode 100644\nindex c57c369..0000000\n--- a/examples/gaussian_sims/pipeline_gaussian_sims_inputcats.yml\n\
+    +++ /dev/null\n@@ -1,42 +0,0 @@\n-launcher:\n-    name: mini\n-    interval: 3.0\n\
+    -\n-site:\n-    name: cori-interactive\n-    image: joezuntz/txpipe\n-\n-modules:\
+    \ txpipe\n-\n-python_paths:\n-    - submodules/WLMassMap/python/desc/\n-    -\
+    \ submodules/TJPCov\n-    - submodules/FlexZPipe\n-\n-stages:\n-    - name: TXGaussianSimsMock\n\
+    -      nprocess: 1\n-      threads_per_process: 20\n-\n-output_dir: data/gaussian_sims/outputs_gaussian_sims/gaussian_sims_srdnzs_fullsky/012922/area12300/without_shape_noise/2022/Feb4/\n\
+    -config: examples/gaussian_sims/config.yml\n-\n-# On NERSC, set this before running:\n\
+    -# export DATA=${LSST}/groups/WL/users/zuntz/data/metacal-testbed\n-\n-inputs:\n\
+    -    # See README for paths to download these files\n-    #    shear_catalog:\
+    \  /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/TXPipe_inputs/shear_catalog.hdf5\n\
+    -    #photometry_catalog:  /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/TXPipe_inputs/photometry_catalog.hdf5\n\
+    -    lens_catalog:  /global/projecta/projectdirs/lsst/groups/WL/users/jprat/gaussian_sims_srdnzs_fullsky/012922/area12300/TXPipe_inputs/lens_catalog.hdf5\n\
+    -    # photoz_trained_model:  /global/projecta/projectdirs/lsst/groups/WL/users/zuntz/data/cosmoDC2-1.1.4_oneyear_unit_response/cosmoDC2_trees_i25.3.npy\n\
+    -    fiducial_cosmology: data/fiducial_cosmology.yml\n-    calibration_table:\
+    \  /global/projecta/projectdirs/lsst/groups/WL/users/zuntz/data/cosmoDC2-1.1.4_oneyear_unit_response/sample_cosmodc2_w10year_errors.dat\n\
+    -    lens_input_catalog: \n-    response_model: /global/projecta/projectdirs/lsst/groups/WL/users/zuntz/data/DESY1-R-model.hdf5\
+    \ \n-\n-\n-resume: True\n-log_dir: data/cosmodc2/logs_redmagic\n-pipeline_log:\
+    \ data/cosmodc2/log.txt\n-\ndiff --git a/submodules/FlexZPipe b/submodules/FlexZPipe\n\
+    --- a/submodules/FlexZPipe\n+++ b/submodules/FlexZPipe\n@@ -1 +1 @@\n-Subproject\
+    \ commit 2ce05f10bb5b1042fbb26740cd17f1fa9d50a49d\n+Subproject commit 2ce05f10bb5b1042fbb26740cd17f1fa9d50a49d-dirty\n\
+    diff --git a/submodules/TJPCov b/submodules/TJPCov\nindex 01f6620..90b4d9f 160000\n\
+    --- a/submodules/TJPCov\n+++ b/submodules/TJPCov\n@@ -1 +1 @@\n-Subproject commit\
+    \ 01f6620d28d4c788eefbb1effd62139a22dcf3c8\n+Subproject commit 90b4d9faa62559d15107459a7a1a3b28856edd42-dirty\n\
+    diff --git a/txpipe/jackknife.py b/txpipe/jackknife.py\nindex 142dd58..8ec3b9d\
+    \ 100644\n--- a/txpipe/jackknife.py\n+++ b/txpipe/jackknife.py\n@@ -1,7 +1,7 @@\n\
+    \ from .base_stage import PipelineStage\n from .data_types import RandomsCatalog,\
+    \ PNGFile, TextFile\n import numpy as np\n-\n+import itertools\n \n class TXJackknifeCenters(PipelineStage):\n\
+    \     \"\"\"\n@@ -35,8 +35,11 @@ class TXJackknifeCenters(PipelineStage):\n \n\
+    \         jk_plot = self.open_output(\"jk\", wrapper=True, figsize=(6.0, 4.5))\n\
+    \         # Choose colormap\n-        cm = plt.cm.get_cmap(\"Set3\")\n-      \
+    \  sc = plt.scatter(ra, dec, c=patch, cmap=cm, s=20, vmin=0)\n+        #cm = plt.cm.get_cmap(\"\
+    tab20c\")\n+        colorlist = [\"#EE91CE\", \"#20B2AA\",\"#008080\",\"#5EC962\"\
+    ,\"#440154\", \"#B32222\", \"#FEB580\", \"#FADA77\",\"#C0E0FF\",\"#6992C2\",\"\
+    #264D73\", \"#474747\"]\n+        colors = itertools.cycle(colorlist)\n+     \
+    \   \n+        sc = plt.scatter(ra, dec, c=patch, s=1, vmin=0)\n         plt.xlabel(\"\
+    RA\")\n         plt.ylabel(\"DEC\")\n         plt.tight_layout()\ndiff --git a/txpipe/twopoint_fourier.py\
+    \ b/txpipe/twopoint_fourier.py\nindex f588c61..5e152c6 100755\n--- a/txpipe/twopoint_fourier.py\n\
+    +++ b/txpipe/twopoint_fourier.py\n@@ -89,7 +89,7 @@ class TXTwoPointFourier(PipelineStage):\n\
+    \         import pyccl\n \n         config = self.config\n-\n+        print(config)\n\
+    \         if self.comm:\n             self.comm.Barrier()\n \n"
+  githead: 'f59c935b1054e88ce1e25868bd7b88cabda29098
+
+    '
+  input/lens_tomography_catalog: UNKNOWN
+  input/mask: UNKNOWN
+  input/shear_catalog: 730f52a1921c43f0bac93ac24535f75a
+  input/shear_tomography_catalog: 0875bbac4c9d4c58b4f30eab7ac85846
+  username: jprat
+  uuid: 9bc54a5dc0ab4a3c9b33e6ba2b8c1a0e
+  versions/PIL: 9.0.1
+  versions/PIL.Image: 9.0.1
+  versions/PIL._version: 9.0.1
+  versions/_csv: '1.0'
+  versions/_ctypes: 1.1.0
+  versions/_decimal: '1.70'
+  versions/argparse: '1.1'
+  versions/astropy._version: 5.0.1
+  versions/astropy.extern.configobj.validate: 1.0.1
+  versions/astropy.extern.ply: '3.11'
+  versions/astropy.extern.ply.lex: '3.11'
+  versions/astropy.extern.ply.yacc: '3.11'
+  versions/astropy.io.fits.diff: 5.0.1
+  versions/astropy.version: 5.0.1
+  versions/ceci: 1.8.3
+  versions/certifi: 2021.10.08
+  versions/cffi: 1.15.0
+  versions/cloudpickle: 2.0.0
+  versions/csv: '1.0'
+  versions/ctypes: 1.1.0
+  versions/cycler: 0.10.0
+  versions/cytoolz: 0.11.2
+  versions/cytoolz._version: 0.11.2
+  versions/dask: 2022.02.1
+  versions/dateutil: 2.8.2
+  versions/dateutil._version: 2.8.2
+  versions/decimal: '1.70'
+  versions/erfa._version: 2.0.0.1
+  versions/erfa.version: 2.0.0.1
+  versions/fsspec: 2022.02.0
+  versions/h5py.version: 3.6.0
+  versions/healpy.version: 1.15.2
+  versions/jinja2: 3.0.3
+  versions/json: 2.0.9
+  versions/kiwisolver: 1.3.2
+  versions/logging: 0.5.1.2
+  versions/markupsafe: 2.1.0
+  versions/matplotlib: 3.5.1
+  versions/matplotlib._version: 3.5.1
+  versions/nerscjson.version: 0.9.0
+  versions/numpy.core: 1.22.2
+  versions/numpy.core._multiarray_umath: '3.1'
+  versions/numpy.lib: 1.22.2
+  versions/numpy.linalg._umath_linalg: 0.1.5
+  versions/numpy.version: 1.22.2
+  versions/packaging.__about__: '21.3'
+  versions/pkg_resources._vendor.appdirs: 1.4.3
+  versions/pkg_resources._vendor.packaging.__about__: '21.2'
+  versions/pkg_resources._vendor.pyparsing: 2.2.1
+  versions/pkg_resources.extern.appdirs: 1.4.3
+  versions/pkg_resources.extern.pyparsing: 2.2.1
+  versions/psutil: 5.9.0
+  versions/pyparsing: 3.0.7
+  versions/re: 2.2.1
+  versions/scipy._lib._uarray: 0.8.2+14.gaf53966.scipy
+  versions/scipy._lib.decorator: 4.0.5
+  versions/scipy.integrate._ode: $Id$
+  versions/scipy.integrate._odepack: ' 1.9 '
+  versions/scipy.integrate._quadpack: ' 1.13 '
+  versions/scipy.optimize._minpack: ' 1.10 '
+  versions/scipy.version: 1.8.0
+  versions/six: 1.16.0
+  versions/sortedcontainers: 2.4.0
+  versions/sys: "3.9.10 | packaged by conda-forge | (main, Feb  1 2022, 21:24:11)\
+    \ \n[GCC 9.4.0]"
+  versions/tblib: 1.7.0
+  versions/tlz: 0.11.2
+  versions/tlz._version: 0.11.2
+  versions/toolz: 0.11.2
+  versions/urllib.request: '3.9'
+  versions/yaml: '6.0'
+  versions/zlib: '1.0'
+N_eff:
+- 78818336.0
+- 78805304.0
+- 78813520.0
+- 78810208.0
+- 78809360.0
+N_eff_2d:
+- 394056736.0
+R:
+- - - 1.0
+    - 0.0
+  - - 0.0
+    - 1.0
+- - - 1.0
+    - 0.0
+  - - 0.0
+    - 1.0
+- - - 1.0
+    - 0.0
+  - - 0.0
+    - 1.0
+- - - 1.0
+    - 0.0
+  - - 0.0
+    - 1.0
+- - - 1.0
+    - 0.0
+  - - 0.0
+    - 1.0
+R_2d:
+- - 1.0
+  - 0.0
+- - 0.0
+  - 1.0
+area: 12307.40201337655
+area_unit: deg^2
+catalog_type: metadetect
+density_unit: arcmin^{-2}
+lens_counts:
+- 99686266
+- 137859321
+- 136697614
+- 115426039
+- 88752353
+lens_counts_2d:
+- 578421593
+lens_density:
+- 2.249916709826194
+- 3.1114816751506487
+- 3.085261975124749
+- 2.6051630211041306
+- 2.003138547200604
+lens_density_2d:
+- 13.054961928406327
+mean_e1:
+- 9.430281352251768e-06
+- 3.33796015183907e-05
+- 1.8281651136931032e-05
+- -1.6811325167509494e-06
+- 7.055924652377144e-05
+mean_e1_2d:
+- 2.5993334929808043e-05
+mean_e2:
+- 2.6167197574977763e-05
+- 1.2558099115267396e-05
+- -5.558985867537558e-05
+- 1.4064749848330393e-05
+- 1.249556476068392e-06
+mean_e2_2d:
+- -3.1013351531328226e-07
+n_eff:
+- 1.7789280414581299
+- 1.7786338329315186
+- 1.7788193225860596
+- 1.7787445783615112
+- 1.7787253856658936
+n_eff_2d:
+- 8.893851280212402
+nbin_lens: 5
+nbin_source: 5
+sigma_e:
+- 0.25999966263771057
+- 0.26008597016334534
+- 0.26013144850730896
+- 0.2603105306625366
+- 0.2603808045387268
+sigma_e_2d:
+- 0.260181725025177
+source_counts:
+- 78818335
+- 78805305
+- 78813519
+- 78810204
+- 78809359
+source_counts_2d:
+- 394056722
+source_density:
+- 1.7789279915166927
+- 1.7786339047191289
+- 1.7788192945084755
+- 1.7787444750354193
+- 1.7787254034050324
+source_density_2d:
+- 8.893851069184748
+source_zmax_0: 0.40831394
+source_zmax_1: 0.65503818
+source_zmax_2: 0.94499109
+source_zmax_3: 1.2947086
+source_zmax_4: 1.72779632
+source_zmin_0: 0.19285902
+source_zmin_1: 0.40831394
+source_zmin_2: 0.65503818
+source_zmin_3: 0.94499109
+source_zmin_4: 1.2947086
