@@ -32,7 +32,7 @@ sources, source_params = likelihood_utils.build_sources(
                                             systematics=[
                                                 WL.LinearAlignmentSystematic,
                                                 WL.PhotoZShift,
-                                                # WL.MultiplicativeShearBias
+                                                WL.MultiplicativeShearBias
                                                 ])
 
 lenses, lens_params = likelihood_utils.build_lenses(
