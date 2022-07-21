@@ -115,13 +115,21 @@ def build_stats(sources, lenses, statistics, scale_cuts=None):
                     source1 = f"source_{j}"
 
                     if scale_cuts is not None:
-                        ell_or_theta_max = scale_cuts[f"{source0}-{source1}"]
-                        if ell_or_theta_max is None:
-                            print(f"No overlap between redshift kernels for "
-                                  f"{source0}-{source1}")
-                            continue
+                        if sacc_stat in ["galaxy_shear_cl_ee"]:
+                            ell_or_theta_min = None
+                            ell_or_theta_max = scale_cuts[f"{source0}-{source1}"]
+                        if sacc_stat in ["galaxy_shear_xi_plus", "galaxy_shear_xi_minus"]:
+                            ell_or_theta_min = scale_cuts[f"{source0}-{source1}"]
+                            ell_or_theta_max = None
                     else:
+                        ell_or_theta_min = None
                         ell_or_theta_max = None
+
+                    if (ell_or_theta_min is None) and (ell_or_theta_max is None):
+                        print(f"No overlap between redshift kernels for "
+                              f"{source0}-{source1}")
+                        continue
+
 
                     stats[f"{stat}{source0}_{source1}"] = TwoPoint(
                         source0=sources[source0],
@@ -137,13 +145,21 @@ def build_stats(sources, lenses, statistics, scale_cuts=None):
                     source1 = f"lens_{j}"
 
                     if scale_cuts is not None:
-                        ell_or_theta_max = scale_cuts[f"{source0}-{source1}"]
-                        if ell_or_theta_max is None:
-                            print(f"No overlap between redshift kernels for "
-                                  f"{source0}-{source1}")
-                            continue
+                        if sacc_stat in ["galaxy_shearDensity_cl_e"]:
+                            ell_or_theta_min = None
+                            ell_or_theta_max = scale_cuts[f"{source0}-{source1}"]
+                        if sacc_stat in ["galaxy_shearDensity_xi_t"]:
+                            ell_or_theta_min = scale_cuts[f"{source0}-{source1}"]
+                            ell_or_theta_max = None
+
                     else:
+                        ell_or_theta_min = None
                         ell_or_theta_max = None
+
+                    if (ell_or_theta_min is None) and (ell_or_theta_max is None):
+                        print(f"No overlap between redshift kernels for "
+                              f"{source0}-{source1}")
+                        continue
 
                     stats[f"{stat}{source0}_{source1}"] = TwoPoint(
                         source0=sources[source0],
@@ -160,13 +176,21 @@ def build_stats(sources, lenses, statistics, scale_cuts=None):
                     source1 = f"lens_{j}"
 
                     if scale_cuts is not None:
-                        ell_or_theta_max = scale_cuts[f"{source0}-{source1}"]
-                        if ell_or_theta_max is None:
+                        if sacc_stat in ["galaxy_density_cl"]:
+                            ell_or_theta_min = None
+                            ell_or_theta_max = scale_cuts[f"{source0}-{source1}"]
+
+                        if sacc_stat in ["galaxy_density_xi"]:
+                            ell_or_theta_min = scale_cuts[f"{source0}-{source1}"]
+                            ell_or_theta_max = None
+                        else:
+                            ell_or_theta_min = None
+                            ell_or_theta_max = None
+
+                    if (ell_or_theta_min is None) and (ell_or_theta_max is None):
                             print(f"No overlap between redshift kernels for "
                                   f"{source0}-{source1}")
                             continue
-                    else:
-                        ell_or_theta_max = None
 
                     stats[f"{stat}{source0}_{source1}"] = TwoPoint(
                         source0=lenses[source0],
