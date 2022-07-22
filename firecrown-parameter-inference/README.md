@@ -20,4 +20,4 @@ cosmosis cosmosis/star_EE_only.ini
 cosmosis cosmosis/star_nn_only.ini
 ```
 
-All chains will be put here `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/`
+All chains will be put here `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/chains`
