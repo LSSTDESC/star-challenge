@@ -12,19 +12,19 @@ sys.path.append(os.path.split(__file__)[0])
 import likelihood_utils
 
 
-sacc_file = "../gaussian-sims-srd-sample/data-vector/twopoint_theory_fourier_with_cov.sacc"   # noqa: E501
-#sacc_file = "../gaussian-sims-srd-sample/data-vector/summary_statistics_fourier_shot_noise_scaled.sacc"   # noqa: E501
-scale_cut_file = "likelihood/scale_cuts_srd.yaml"
+sacc_file = "../gaussian-sims-srd-sample/data-vector/twopoint_theory_real_with_cov.sacc" 
+scale_cut_file = "likelihood/scale_cuts_srd_real.yaml"
 
 statistics = [
-              "galaxy_shear_cl_ee",
-              "galaxy_shearDensity_cl_e",
-              "galaxy_density_cl"
+              "galaxy_shear_xi_plus",
+              "galaxy_shear_xi_minus",
+              "galaxy_shearDensity_xi_t",
+              "galaxy_density_xi"
               ]
 
 sacc_data = sacc.Sacc.load_fits(sacc_file)
 with open(scale_cut_file, "r") as f:
-    ell_max = yaml.safe_load(f)
+    theta_min_arcmin = yaml.safe_load(f)
 
 n_source, n_lens = likelihood_utils.get_n_tracer(sacc_data)
 
@@ -41,10 +41,9 @@ lenses, lens_params = likelihood_utils.build_lenses(
                                         systematics=[
                                             NC.PhotoZShift,
                                             ])
-
 stats = likelihood_utils.build_stats(sources, lenses,
                                      statistics=statistics,
-                                     scale_cuts=ell_max
+                                     scale_cuts=theta_min_arcmin
                                      )
 
 lk = ConstGaussian(statistics=list(stats.values()))
