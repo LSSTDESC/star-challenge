@@ -2,13 +2,13 @@
 
 ## Basic Information
 
-On this page we provide details of galaxy samples that are first used in the CosmoDC2-TXPipe project. This might later be replaced by the cosmodc2-srd-sample. The main difference with that sample is the use of redmagic as the lenses and more source bins. 
+This is a simple Gaussian catalog that is designed to match the LSST Y1 SRD sample.
 
-Area: 441.279 sq. deg.
+Area: 12,300 sq. deg.
 
 Cosmology: https://github.com/LSSTDESC/TXPipe/blob/master/data/fiducial_cosmology.yml
 
-NERSC Location: /global/projecta/projectdirs/lsst/groups/WL/users/jprat/cosmodc2_txpipe_outputs/
+NERSC Location: ??? 
 
 
 ## Data Access
