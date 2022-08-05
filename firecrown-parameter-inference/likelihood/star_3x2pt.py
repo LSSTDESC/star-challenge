@@ -6,14 +6,14 @@ import firecrown.likelihood.gauss_family.statistic.source.number_counts as NC
 
 from firecrown.likelihood.gauss_family.gaussian import ConstGaussian
 
-import sys
-import os
-sys.path.append(os.path.split(__file__)[0])
-import likelihood_utils
+from . import likelihood_utils
 
 
-sacc_file = "../gaussian-sims-srd-sample/data-vector/twopoint_theory_fourier_w_full_cov.sacc"   # noqa: E501
+# sacc_file = "../gaussian-sims-srd-sample/data-vector/twopoint_theory_fourier_w_full_cov.sacc"   # noqa: E501
+sacc_file = "../gaussian-sims-srd-sample/data-vector/summary_statistics_fourier_shot_noise_scaled.sacc"   # noqa: E501
+
 scale_cut_file = "likelihood/scale_cuts_kmax-0.5_peak.yaml"
+# scale_cut_file = "likelihood/scale_cuts_kmax-0.2_q_0.25.yaml"
 
 statistics = [
               "galaxy_shear_cl_ee",
@@ -52,3 +52,5 @@ lk.read(sacc_data)
 lk.set_params_names(source_params | lens_params)
 
 likelihood = lk
+
+print("Finished with likelihood setup")
