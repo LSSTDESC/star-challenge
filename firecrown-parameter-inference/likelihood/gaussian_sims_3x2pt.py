@@ -12,8 +12,8 @@ sys.path.append(os.path.split(__file__)[0])
 import likelihood_utils
 
 
-sacc_file = "../gaussian-sims-srd-sample/data-vector/twopoint_theory_fourier_with_cov.sacc"   # noqa: E501
-#sacc_file = "../gaussian-sims-srd-sample/data-vector/summary_statistics_fourier_shot_noise_scaled.sacc"   # noqa: E501
+#sacc_file = "../gaussian-sims-srd-sample/data-vector/twopoint_theory_fourier_with_cov.sacc"   # noqa: E501
+sacc_file = "../gaussian-sims-srd-sample/data-vector/summary_statistics_fourier_tjpcov.sacc"   # noqa: E501
 scale_cut_file = "likelihood/scale_cuts_srd.yaml"
 
 statistics = [

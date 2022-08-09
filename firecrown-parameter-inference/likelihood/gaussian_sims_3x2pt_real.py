@@ -12,7 +12,8 @@ sys.path.append(os.path.split(__file__)[0])
 import likelihood_utils
 
 
-sacc_file = "../gaussian-sims-srd-sample/data-vector/summary_statistics_real.sacc" 
+#sacc_file = "../gaussian-sims-srd-sample/data-vector/summary_statistics_real.sacc" 
+sacc_file = "../gaussian-sims-srd-sample/data-vector/twopoint_theory_real_with_cov_firecrown_theory.sacc" 
 scale_cut_file = "likelihood/scale_cuts_srd_real.yaml"
 
 statistics = [
