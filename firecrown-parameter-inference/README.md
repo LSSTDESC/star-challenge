@@ -7,7 +7,7 @@ The likelihoods make use of a set of common routines in `likelihood/likelihood_u
 
 The scale cuts are being computed with `utils/scale_cuts.ipynb`.
 
-The `sacc` file is currently a Frankensteinian abomination that hacks together the "data" and covariance until TXPipe can do this consistently.
+The `sacc` file can be found on NERSC at `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/gaussian/data_vectors/`
 
 Chains/Fisher forecast/test runs are run with CosmoSIS from this directory (adjust the sampler in the .ini files accordingly):
 ```
