@@ -135,6 +135,7 @@ def build_stats(sources, lenses, statistics, scale_cuts=None):
                         source0=sources[source0],
                         source1=sources[source1],
                         sacc_data_type=sacc_stat,
+                        ell_or_theta_min=ell_or_theta_min,
                         ell_or_theta_max=ell_or_theta_max,
                     )
         elif sacc_stat in ["galaxy_shearDensity_cl_e",
@@ -165,13 +166,16 @@ def build_stats(sources, lenses, statistics, scale_cuts=None):
                         source0=sources[source0],
                         source1=lenses[source1],
                         sacc_data_type=sacc_stat,
+                        ell_or_theta_min=ell_or_theta_min,
                         ell_or_theta_max=ell_or_theta_max,
                     )
         elif sacc_stat in ["galaxy_density_cl",
                            "galaxy_density_xi"]:
             for i in range(n_lens):
+                
                 # TODO: Should add option for cross-correlations
                 for j in range(i, i+1):
+                    
                     source0 = f"lens_{i}"
                     source1 = f"lens_{j}"
 
@@ -179,13 +183,14 @@ def build_stats(sources, lenses, statistics, scale_cuts=None):
                         if sacc_stat in ["galaxy_density_cl"]:
                             ell_or_theta_min = None
                             ell_or_theta_max = scale_cuts[f"{source0}-{source1}"]
+                           
 
                         if sacc_stat in ["galaxy_density_xi"]:
                             ell_or_theta_min = scale_cuts[f"{source0}-{source1}"]
                             ell_or_theta_max = None
-                        else:
-                            ell_or_theta_min = None
-                            ell_or_theta_max = None
+                    else:
+                        ell_or_theta_min = None
+                        ell_or_theta_max = None
 
                     if (ell_or_theta_min is None) and (ell_or_theta_max is None):
                             print(f"No overlap between redshift kernels for "
@@ -196,6 +201,7 @@ def build_stats(sources, lenses, statistics, scale_cuts=None):
                         source0=lenses[source0],
                         source1=lenses[source1],
                         sacc_data_type=sacc_stat,
+                        ell_or_theta_min=ell_or_theta_min,
                         ell_or_theta_max=ell_or_theta_max,
                     )
 
