@@ -1,6 +1,6 @@
-### How to obtain the two-point measurements for the CosmoDC2 sample used in Prat, Zuntz, et al.
+### How to obtain the two-point measurements for the CosmoDC2 sample used in Prat, Zuntz, et al. with TXPipe
 
-The instructions below are for cori at nersc.
+The instructions below are for cori at nersc. 
 
 1. Check the pipeline and config files (and edit them if you like):
 
