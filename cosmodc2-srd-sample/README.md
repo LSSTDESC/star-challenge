@@ -30,5 +30,7 @@ The instructions below are for cori at nersc.
    
 7. Check the ouptuts in the `output_dir`. 
 
+A copy of the output is stored in `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/TXPipe-full-output/`. The data vector sacc files are stored in `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/data_vectors/`. 
+
 
 
