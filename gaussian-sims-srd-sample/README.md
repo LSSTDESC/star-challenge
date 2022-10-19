@@ -10,11 +10,11 @@ The generation of the sample is based on the method described in Giannantonio et
 
 
 ### Output sacc file on nersc:
-* Real space
-* Harmonic space
+* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/data_vectors/`
+* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/data_vectors/`
 
 ## Instructions for running Firecrown
 
 ### Output chains on nersc:
-* Real space
-* Harmonic space
+* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/chains/`
+* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/chains/`
