@@ -4,8 +4,8 @@ The instructions below are for cori at nersc.
 
 1. Check the pipeline and config files (and edit them if you like):
 
-        examples/star-challenge/sample-for-pz_full.yml
-        examples/star-challenge/config_full.yml
+        https://github.com/LSSTDESC/TXPipe/blob/master/examples/star-challenge/sample-for-pz_full.yml
+        https://github.com/LSSTDESC/TXPipe/blob/master/examples/star-challenge/config_full.yml
     
 2. Edit the output directory `output_dir` to the folder of your choice (use SCRATCH since the output files are big). 
    You can have TXPipe installed in your home directory or SCRATCH but the output folder should always be SCRATCH. 
