@@ -4,4 +4,17 @@ In Prat, Zuntz (2022), we use a simple Gaussian simulation to test whether TXPip
 
 The generation of the sample is based on the method described in Giannantonio et al. (2008) and we describe the details here: https://github.com/LSSTDESC/star-challenge/tree/inference/gaussian-sims-srd-sample/generation.
 
+### Catalogs on nersc:
 
+## Instructions for running TXPipe
+
+
+### Output sacc file on nersc:
+* Real space
+* Harmonic space
+
+## Instructions for running Firecrown
+
+### Output chains on nersc:
+* Real space
+* Harmonic space
