@@ -1,4 +1,4 @@
-# Gaussian simulations -- DESC SRD Y1-like sample 
+# Gaussian simulations: DESC SRD Y1-like sample 
 
 In Prat, Zuntz (2022), we use a simple Gaussian simulation to test whether TXPipe can deliver accurate and precise two-point function measurements to the LSST Y1 requirements. The simulations were designed to be like the LSST Y1 data, as specified by the LSST DESC SRD.
 
