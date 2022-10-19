@@ -1,19 +1,7 @@
-# Sample Generation
+# Gaussian simulations -- DESC SRD Y1-like sample 
 
-## Basic Information
+In Prat, Zuntz (2022), we use a simple Gaussian simulation to test whether TXPipe can deliver accurate and precise two-point function measurements to the LSST Y1 requirements. The simulations were designed to be like the LSST Y1 data, as specified by the LSST DESC SRD.
 
-This is a simple Gaussian catalog that is designed to match the LSST Y1 SRD sample.
+The generation of the sample is based on the method described in Giannantonio et al. (2008) and we describe the details here: https://github.com/LSSTDESC/star-challenge/tree/inference/gaussian-sims-srd-sample/generation.
 
-Area: 12,300 sq. deg.
-
-Cosmology: https://github.com/LSSTDESC/TXPipe/blob/master/data/fiducial_cosmology.yml
-
-NERSC Location: ??? 
-
-
-## Data Access
-
-## Data Vectors
-
-Data vectors from TXPipe will be put here `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/data_vectors`
 
