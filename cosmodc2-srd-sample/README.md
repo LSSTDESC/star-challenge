@@ -40,18 +40,18 @@ The instructions below are for cori at nersc.
    
 7. Check the ouptuts in the `output_dir`. 
 
-A copy of the output is stored in `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/TXPipe-full-output/`. The data vector sacc files are stored in `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/data_vectors/`. 
+A copy of all the output is stored in `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/TXPipe-full-output/`. 
 
 
+### Output sacc file on nersc
 
-
-### Output sacc file on nersc:
 * Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/data_vectors/summary_statistics_real.sacc`
 * Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmomdc2/data_vectors/summary_statistics_fourier.sacc`
 
 ## Instructions for running Firecrown
 
-### Output chains on nersc (fiducial wCDM):
+### Output chains on nersc (fiducial wCDM)
+
 * Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/cosmodc2_3x2pt_real_w0-wa.txt`
 * Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/cosmodc2_3x2pt_fourier_w0-wa.txt`
 
