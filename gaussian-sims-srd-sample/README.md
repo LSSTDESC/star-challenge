@@ -13,15 +13,15 @@ The generation of the sample is based on the method described in Giannantonio et
 
 The instructions below are for cori at nersc. 
 
-0. [Install TXPipe](https://github.com/LSSTDESC/star-challenge/tree/inference#txpipe)
+0. [Install TXPipe](https://github.com/LSSTDESC/star-challenge/tree/inference#txpipe) and also clone the TXPipe repo
 
-1. Check the pipeline and config files (and edit them if you like):
+1. In the TXPipe directory, check the pipeline and config files (and edit them if you like):
 
           https://github.com/LSSTDESC/TXPipe/blob/master/examples/xxx
           https://github.com/LSSTDESC/TXPipe/blob/master/examples/xxx
 
 2. Edit the output directory `output_dir` to the folder of your choice (use SCRATCH since the output files are big). 
-   You can have TXPipe installed in your home directory or SCRATCH but the output folder should always be $SCRATCH. 
+   You can have TXPipe installed in your home directory or SCRATCH but the output folder should always be `$SCRATCH`. 
 
 3. Get interactive nodes:
 
@@ -51,6 +51,8 @@ A copy of all the output is stored in `/global/cfs/cdirs/lsst/groups/WL/projects
 * Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/gaussian/data_vectors/summary_statistics_fourier.sacc`
 
 ## Instructions for running Firecrown
+
+
 
 ### Output chains on nersc (fiducial wCDM)
 
