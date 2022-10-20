@@ -1,8 +1,8 @@
 # CosmoDC2: DESC SRD Y1-like sample 
 
-In Prat, Zuntz (2022), we use a simple Gaussian simulation to test whether TXPipe can deliver accurate and precise two-point function measurements to the LSST Y1 requirements. The simulations were designed to be like the LSST Y1 data, as specified by the LSST DESC SRD.
+In Prat, Zuntz (2022), we use a LSST Y1-like sample from CosmoDC2 to showcase how TXPipe can run on a mock galaxy catalog. The simulations were designed to be like the LSST Y1 data in terms of the sample specification according to the LSST DESC SRD. The area is much smaller though.
 
-The generation of the sample see xx
+Details for how we generated the sample can be found [here](https://github.com/LSSTDESC/star-challenge/tree/inference/cosmodc2-srd-sample/generation).
 
 ### Catalogs on nersc:
 
@@ -14,9 +14,8 @@ The instructions below are for cori at nersc.
 
 1. Check the pipeline and config files (and edit them if you like):
 
-        https://github.com/LSSTDESC/TXPipe/blob/master/examples/star-challenge/sample-for-pz_full.yml
-        https://github.com/LSSTDESC/TXPipe/blob/master/examples/star-challenge/config_full.yml
-    
+XXX
+
 2. Edit the output directory `output_dir` to the folder of your choice (use SCRATCH since the output files are big). 
    You can have TXPipe installed in your home directory or SCRATCH but the output folder should always be $SCRATCH. 
 
@@ -30,17 +29,17 @@ The instructions below are for cori at nersc.
 
 5. Check what we will run:
 
-        tx ceci --dry-run examples/star-challenge/sample-for-pz_full.yml
-   
+XXX
+
    The output of the above is also useful if you want to run stages individually (just copy and paste each stage).
     
 6. Actually run the whole pipeline:
 
-        tx ceci examples/star-challenge/sample-for-pz_full.yml  
-   
+XXX
+
 7. Check the ouptuts in the `output_dir`. 
 
-A copy of all the output is stored in `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/TXPipe-full-output/`. 
+A copy of all the output is stored in XXX. 
 
 
 ### Output sacc file on nersc
