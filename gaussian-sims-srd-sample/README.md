@@ -52,7 +52,13 @@ A copy of all the output is stored in `/global/cfs/cdirs/lsst/groups/WL/projects
 
 ## Instructions for running Firecrown
 
+0. [Install firecrown](https://github.com/LSSTDESC/star-challenge/tree/inference#firecrown)
 
+1. Activate firecrown environment
+          
+          conda activate firecrown
+
+2. 
 
 ### Output chains on nersc (fiducial wCDM)
 
