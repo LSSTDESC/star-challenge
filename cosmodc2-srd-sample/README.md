@@ -40,7 +40,7 @@ The instructions below are for cori at nersc.
 
 7. Check the ouptuts in the `output_dir`. 
 
-A copy of all the output is stored in XXX. 
+A copy of all the output is stored in `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/TXPipe-full-output/`. 
 
 
 ### Output sacc file on nersc
