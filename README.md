@@ -10,9 +10,4 @@ Each subdirectory will contain a certain sample and we will record steps for its
 - `cosmodc2-redmagic-sample` - CosmoDC2 sample that uses redmagic as lenses
 - `dc2-lss-sample` - DC2 sample used for LSS project #91
 
-Under each sample, we record in subdirectories:
-
-- `generation` - basic information and generation of the samples
-- `photo-z` - information about training set and n(z)
-- `data-vector` - information about running TXPipe to obtain data vectors and covariances
-- `modeling` - information about running Firecrown to obtain cosmological inference
+Under each sample, we record detailed instructions on how to generate the samples as well as carry out a catalog-to-cosmology analysis using that sample.
