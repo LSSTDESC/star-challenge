@@ -1,4 +1,12 @@
-### How to obtain the two-point measurements for the CosmoDC2 sample used in Prat, Zuntz, et al. with TXPipe
+# CosmoDC2: DESC SRD Y1-like sample 
+
+In Prat, Zuntz (2022), we use a simple Gaussian simulation to test whether TXPipe can deliver accurate and precise two-point function measurements to the LSST Y1 requirements. The simulations were designed to be like the LSST Y1 data, as specified by the LSST DESC SRD.
+
+The generation of the sample is based on the method described in Giannantonio et al. (2008) and we describe the details here: https://github.com/LSSTDESC/star-challenge/tree/inference/gaussian-sims-srd-sample/generation.
+
+### Catalogs on nersc:
+
+## Instructions for running TXPipe
 
 The instructions below are for cori at nersc. 
 
@@ -31,6 +39,19 @@ The instructions below are for cori at nersc.
 7. Check the ouptuts in the `output_dir`. 
 
 A copy of the output is stored in `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/TXPipe-full-output/`. The data vector sacc files are stored in `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/data_vectors/`. 
+
+
+
+
+### Output sacc file on nersc:
+* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/data_vectors/summary_statistics_real.sacc`
+* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmomdc2/data_vectors/summary_statistics_fourier.sacc`
+
+## Instructions for running Firecrown
+
+### Output chains on nersc (fiducial wCDM):
+* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/cosmodc2_3x2pt_real_w0-wa.txt`
+* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/cosmodc2_3x2pt_fourier_w0-wa.txt`
 
 
 
