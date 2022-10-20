@@ -10,4 +10,12 @@ Each subdirectory will contain a certain sample and we will record steps for its
 - `cosmodc2-redmagic-sample` - CosmoDC2 sample that uses redmagic as lenses
 - `dc2-lss-sample` - DC2 sample used for LSS project #91
 
-Under each sample, we record detailed instructions on how to generate the samples as well as carry out a catalog-to-cosmology analysis using that sample.
+Under each sample, we record detailed instructions on how to generate the samples as well as carry out a catalog-to-cosmology analysis using that sample. The firecrown parameters are separately stored in the `firecrown-parameter-inference` directory.
+
+To run anything in these directories it is likely that you will need to install [TXPipe](https://github.com/LSSTDESC/TXPipe) and [Firecrown](https://github.com/LSSTDESC/firecrown). We provide simple instructions here to install both, though please read the respective documentation of the two packages for the most up-to-date instructions.
+
+
+## TXPipe
+
+
+## Firecrown
