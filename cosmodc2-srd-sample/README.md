@@ -2,7 +2,7 @@
 
 In Prat, Zuntz (2022), we use a simple Gaussian simulation to test whether TXPipe can deliver accurate and precise two-point function measurements to the LSST Y1 requirements. The simulations were designed to be like the LSST Y1 data, as specified by the LSST DESC SRD.
 
-The generation of the sample is based on the method described in Giannantonio et al. (2008) and we describe the details here: https://github.com/LSSTDESC/star-challenge/tree/inference/gaussian-sims-srd-sample/generation.
+The generation of the sample see xx
 
 ### Catalogs on nersc:
 
@@ -10,13 +10,15 @@ The generation of the sample is based on the method described in Giannantonio et
 
 The instructions below are for cori at nersc. 
 
+0. Install TXPipe 
+
 1. Check the pipeline and config files (and edit them if you like):
 
         https://github.com/LSSTDESC/TXPipe/blob/master/examples/star-challenge/sample-for-pz_full.yml
         https://github.com/LSSTDESC/TXPipe/blob/master/examples/star-challenge/config_full.yml
     
 2. Edit the output directory `output_dir` to the folder of your choice (use SCRATCH since the output files are big). 
-   You can have TXPipe installed in your home directory or SCRATCH but the output folder should always be SCRATCH. 
+   You can have TXPipe installed in your home directory or SCRATCH but the output folder should always be $SCRATCH. 
 
 3. Get interactive nodes:
 
