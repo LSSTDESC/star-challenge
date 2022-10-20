@@ -10,11 +10,11 @@ The generation of the sample is based on the method described in Giannantonio et
 
 
 ### Output sacc file on nersc:
-* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/data_vectors/`
-* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/data_vectors/`
+* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/gaussian/data_vectors/summary_statistics_real.sacc`
+* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/gaussian/data_vectors/summary_statistics_fourier.sacc`
 
 ## Instructions for running Firecrown
 
-### Output chains on nersc:
-* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/chains/`
-* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/chains/`
+### Output chains on nersc (fiducial wCDM):
+* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/chains/gaussian_sims_3x2pt_real_w0-wa.txt`
+* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/chains/gaussian_sims_3x2pt_fourier_w0-wa.txt`
