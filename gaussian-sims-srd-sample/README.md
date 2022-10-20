@@ -84,6 +84,8 @@ where `submit` will looks something like this on nersc
           #SBATCH --output=%x.log                                                             
           #SBATCH --mail-type=END
           
+          module load openmpi
+          module load python
           source activate firecrown
           export CSL_DIR=/where/cosmosis-standard-library/is/installed
           export FIRECROWN_DIR=/where/firecrown/is/installed
