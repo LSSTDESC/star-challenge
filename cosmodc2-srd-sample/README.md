@@ -10,7 +10,7 @@ Details for how we generated the sample can be found [here](https://github.com/L
 
 The instructions below are for cori at nersc. 
 
-0. Install TXPipe 
+0. [Install TXPipe](https://github.com/LSSTDESC/star-challenge/tree/inference#txpipe)
 
 1. Check the pipeline and config files (and edit them if you like):
 
