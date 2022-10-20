@@ -6,6 +6,8 @@ Details for how we generated the sample can be found [here](https://github.com/L
 
 ### Catalogs on nersc:
 
+`/global/cfs/cdirs/lsst/groups/WL/users/zuntz/data/cosmoDC2-1.1.4_oneyear/`
+
 ## Instructions for running TXPipe
 
 The instructions below are for cori at nersc. 
