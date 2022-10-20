@@ -98,6 +98,6 @@ This one is parallelizable.  From the TXPipe directory:
 
     salloc --nodes 1 --qos interactive --time 02:00:00 --constraint haswell
     source /global/cfs/cdirs/lsst/groups/WL/users/zuntz/setup-txpipe
-    tx ceci examples/star-challenge/sample-for-pz.yml
+    tx ceci examples/star-challenge/sample-for-pz_full.yml
 
-It will make files in `data/star-challenge/outputs`.  Copies of the smaller output files (n(z) data and plots) are included in this repo directory.
+It will make files in `data/star-challenge/outputs`.  Copies of the smaller output files (n(z) data and plots) are included in this repo directory. The `sample-for-pz_full.yml` file will not only generate the binning but also run the full pipeline, including getting the two-point measurements (see  https://github.com/LSSTDESC/star-challenge/tree/inference/cosmodc2-srd-sample for more complete information on that part). 
