@@ -21,7 +21,7 @@ Follow one of the options for [here](https://txpipe.readthedocs.io/en/latest/ins
 
 ## Firecrown
 
-You can read up on the installation options [here](https://firecrown.readthedocs.io/en/latest/install_quick.html). You probably want to choose the developer installation. 
+You can read up on the installation options [here](https://firecrown.readthedocs.io/en/latest/install_quick.html). You probably want to choose the developer installation. OR, the following lines should also work.
 
 ### Install dependencies
         conda create --name firecrown_dev_env -c conda-forge sacc pyccl fitsio fuzzywuzzy urllib3 PyYAML portalocker idna dill charset-normalizer requests matplotlib flake8 pylint black pytest coverage pandas zeus-mcmc emcee
