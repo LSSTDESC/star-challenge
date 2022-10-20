@@ -50,10 +50,52 @@ A copy of all the output is stored in `/global/cfs/cdirs/lsst/groups/WL/projects
 
 ## Instructions for running Firecrown
 
-### Output chains on nersc (fiducial wCDM)
+0. [Install firecrown](https://github.com/LSSTDESC/star-challenge/tree/inference#firecrown)
 
-* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/cosmodc2_3x2pt_real_w0-wa.txt`
-* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/cosmodc2_3x2pt_fourier_w0-wa.txt`
+1. Activate firecrown environment
+          
+          conda activate firecrown
+
+2. Set up paths
+
+          export CSL_DIR=/where/cosmosis-standard-library/is/installed
+          export FIRECROWN_DIR=/where/firecrown/is/installed
+          export FIRECROWN_ROOT_DIR=/where/firecrown/is/installed
+
+3. Run firecrown (in `firecrown-parameter-inference`) with the `test` sampler, ie. single evaluation of likelihood. 
+
+          cosmosis cosmosis/cosmodc2_3x2pt.ini
+
+4. Run firecrown (in `firecrown-parameter-inference`) with the `emcee` sampler, ie. a chain. 
+
+          sbatch submit
+
+where `submit` will looks something like this on nersc
+
+          #!/bin/bash                                                                   
+          #SBATCH --qos=regular                                                              
+          #SBATCH --time=10:00:00                                                             
+          #SBATCH --nodes=10                                                               
+          #SBATCH --constraint=haswell                                                          
+          #SBATCH --account=m1727                                                             
+          #SBATCH --job-name=gaussian_twopoint                                                      
+          #SBATCH --output=%x.log                                                             
+          #SBATCH --mail-type=END
+          
+          module load openmpi
+          module load python
+          source activate firecrown
+          export CSL_DIR=/where/cosmosis-standard-library/is/installed
+          export FIRECROWN_DIR=/where/firecrown/is/installed
+          export FIRECROWN_ROOT_DIR=/where/firecrown/is/installed
+
+          mpirun -n 210 cosmosis --mpi cosmosis/cosmodc2_3x2pt.ini -p  runtime.sampler='emcee'
+
+
+### Output chains on nersc (fiducial LCDM)
+
+* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/cosmodc2_3x2pt_real.txt`
+* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/cosmodc2_3x2pt_fourier.txt`
 
 
 
