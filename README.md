@@ -1,4 +1,4 @@
-STAR Challenge Notes
+STAR Challenge
 =====================
 
 This repo is work in progress and will record how we made and where we put files for the STAR challenge.
