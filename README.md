@@ -17,5 +17,21 @@ To run anything in these directories it is likely that you will need to install 
 
 ## TXPipe
 
+Follow one of the options for [here](https://txpipe.readthedocs.io/en/latest/installation.html). Since many of the catalogs will be on NERSC, doing the NERSC shifter option is likely the fastest. Note that you would still need to clone TXPipe since the config files are in that repo. 
 
 ## Firecrown
+
+You can read up on the installation options [here](https://firecrown.readthedocs.io/en/latest/install_quick.html). You probably want to choose the developer installation. 
+
+### Install dependencies
+        conda create --name firecrown_dev_env -c conda-forge sacc pyccl fitsio fuzzywuzzy urllib3 PyYAML portalocker idna dill charset-normalizer requests matplotlib flake8 pylint black pytest coverage pandas zeus-mcmc emcee
+        conda activate firecrown_dev_env
+        CC=clang CXX=clang++ pip install cosmosis cobaya
+        git clone github.com:joezuntz/cosmosis-standard-library
+        export CSL_DIR=your_path_to_the_cosmosis_standard_library
+
+### Install firecrown
+        git clone github.com:LSSTDESC/firecrown
+        cd firecrown
+        pip install -e . 
+        export FIRECROWN_DIR=${PWD}/firecrown
