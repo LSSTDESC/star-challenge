@@ -18,6 +18,7 @@ cosmosis cosmosis/star_EE_only.ini
 ```
 ```
 cosmosis cosmosis/star_nn_only.ini
-```
+`````
+For running chains with MultiNest, you will need to create a new directory, `chain_checkpoints`, within `firecrown_parameter_inference`.
 
 All chains will be put here `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/chains`
