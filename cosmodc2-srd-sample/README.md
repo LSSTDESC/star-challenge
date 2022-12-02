@@ -48,7 +48,7 @@ A copy of all the output is stored in `/global/cfs/cdirs/lsst/groups/WL/projects
 ### Output sacc file on nersc
 
 * Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/data_vectors/summary_statistics_real.sacc`
-* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmomdc2/data_vectors/summary_statistics_fourier.sacc`
+* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/data_vectors/summary_statistics_fourier.sacc`
 
 ## Instructions for running Firecrown
 
