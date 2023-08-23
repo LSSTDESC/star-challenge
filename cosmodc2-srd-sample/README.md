@@ -94,7 +94,7 @@ where `submit` will looks something like this on nersc
           mpirun -n 210 cosmosis --mpi cosmosis/cosmodc2_3x2pt.ini -p  runtime.sampler='emcee'
 
 
-### Output chains on nersc (fiducial LCDM)
+### Output chains on nersc 
 
 `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/`
 
