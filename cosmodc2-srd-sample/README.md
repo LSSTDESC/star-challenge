@@ -96,8 +96,7 @@ where `submit` will looks something like this on nersc
 
 ### Output chains on nersc (fiducial LCDM)
 
-* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/cosmodc2_3x2pt_real.txt`
-* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/cosmodc2_3x2pt_fourier.txt`
+`/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/cosmodc2/chains/`
 
 
 
