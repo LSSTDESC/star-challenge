@@ -94,7 +94,7 @@ where `submit` will looks something like this on nersc
           mpirun -n 210 cosmosis --mpi cosmosis/gaussian_sims_3x2pt.ini -p  runtime.sampler='emcee'
 
 
-### Output chains on nersc (fiducial LCDM)
+### Output chains on nersc 
 
-* Real space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/chains/gaussian_sims_3x2pt_real.txt`
-* Harmonic space `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/chains/gaussian_sims_3x2pt_fourier.txt`
+* Folder: `/global/cfs/cdirs/lsst/groups/WL/projects/star-challenge/gaussian/chains/`
+
