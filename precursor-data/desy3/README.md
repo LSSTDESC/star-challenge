@@ -1,4 +1,4 @@
-# Link to public catalog
+# Link to public release
   https://des.ncsa.illinois.edu/releases/y3a2
   
 # 
@@ -15,12 +15,19 @@ The lens catalog can be extracted from what is called the master catalog, which 
 ## Lens catalog
 
 ## Shear catalog
+The original script to extract source galaxies from the master catalog can be found in:<BR>
+https://github.com/des-science/DESY3Cats <BR>
+
+A slightly modified version of this code, that saves a catalog that is in a format that TXPipe understands is provided in this repository.
+   ```extract_desy3_shearcat_txpipe.py```
 
 ## PSF catalog
-The PSF catalog can be obtained from here:
-http://desdr-server.ncsa.illinois.edu/despublic/y3a2_files/psf/psf_y3a1-v29.fits
+The PSF catalog can be obtained from here:<BR>
+   http://desdr-server.ncsa.illinois.edu/despublic/y3a2_files/psf/psf_y3a1-v29.fits
 
 # Validated catalog location on Perlmutter
+The git commit version of ```extract_catalogs_desy3_txpipe.py``` used to extract the catalog is stored in the header.
+
 RedMaGiC: <BR>
 Maglim  : <BR>
 Metacal :  `/global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/des-y3/shear_catalog_desy3_unmasked_withfakez_v2.h5` <BR>
