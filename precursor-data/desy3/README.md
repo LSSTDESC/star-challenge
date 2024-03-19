@@ -12,14 +12,15 @@ The lens catalog can be extracted from what is called the master catalog, which 
 [DESY3_GOLD_2_2.1_DNF.h5](http://desdr-server.ncsa.illinois.edu/despublic/y3a2_files/y3kp_cats/DESY3_GOLD_2_2.1_DNF.h5)<BR>
 [DESY3_sompz_v0.40.h5](http://desdr-server.ncsa.illinois.edu/despublic/y3a2_files/y3kp_cats/DESY3_sompz_v0.40.h5)<BR>
 
-## Lens catalog
-
-## Shear catalog
 The original script to extract source galaxies from the master catalog can be found in:<BR>
 https://github.com/des-science/DESY3Cats <BR>
 
 A slightly modified version of this code, that saves a catalog that is in a format that TXPipe understands is provided in this repository.
-   ```extract_desy3_shearcat_txpipe.py```
+   ```extract_catalogs_desy3_txpipe.py```
+
+## Lens catalog
+
+## Shear catalog
 
 ## PSF catalog
 The PSF catalog can be obtained from here:<BR>
