@@ -1,5 +1,5 @@
 # https://github.com/LSSTDESC/star-challenge.git
-# Based on script written by Tianqing 
+# Based on script written by Tianqing/Xiangchong 
 # Main directory 
 # /global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3/
 import os, sys, git, h5py
@@ -11,7 +11,7 @@ from astropy.io import fits
 repo  = git.Repo('./',search_parent_directories=True)
 sha   = repo.head.object.hexsha
 
-# These are the star catalogs use in Xianchong's paper
+# These are the star catalogs use in Xiangchong's paper
 file_star         = '/pscratch/sd/x/xiangchl/data/catalog/hsc_year3_shape/catalog_others/{field}_star.fits'
 
 # These are the star catalogs used in Tianqing's paper
@@ -29,7 +29,7 @@ file_out_star_nosnrcut_withareacut = '/global/cfs/cdirs/lsst/groups/WL/projects/
 
 #----------------- Uncalibrated shear catalog --------------------
 print("-------------------------------------------------------")
-print("Creating shear catalog (Xianchong's catalog)")
+print("Creating shear catalog (Xiangchong's catalog)")
 
 field_list = ['GAMA09H', 'GAMA15H', 'HECTOMAP', 'WIDE12H', 'VVDS', 'XMM']
 
@@ -337,9 +337,6 @@ for field in field_list:
     psf_e2   = 0.5*2*psf_mxy/(psf_mxx +psf_myy)
     psf_T    = (psf_mxx+psf_myy)
 
-    # extract diff_e1, diff_e2
-    #de1      = psf_e1 - star_e1
-    #de2      = psf_e2 - star_e2
     tot_objid      += list(objid[mask] )
     tot_ra         += list(ra[mask] )
     tot_dec        += list(dec[mask])
