@@ -11,10 +11,6 @@ from astropy.io import fits
 repo  = git.Repo('./',search_parent_directories=True)
 sha   = repo.head.object.hexsha
 
-dir_shape_catalog = '/hildafs/projects/phy200017p/share/HSC_shape_catalog_Y3/catalog_obs_reGaus_no_m/'
-dir_bin_id        = '/hildafs/projects/phy200017p/xiangchl/work/S19ACatalogs/photoz_2pt/'
-dir_star          = '/global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3/'
-
 # These are the star catalogs use in Xianchong's paper
 file_star         = '/pscratch/sd/x/xiangchl/data/catalog/hsc_year3_shape/catalog_others/{field}_star.fits'
 
@@ -69,15 +65,10 @@ tot_mean_z  = []
 for field in field_list:
 
     print("Processing:", field)
-    #this_shape_cat  = Table.read(dir_shape_catalog + "{}_no_m.fits".format(field))
-    #this_bin_id_cat = Table.read(dir_bin_id + "source_sel_{}.fits".format(field))
-    #this_shape_cat['dnnz_bin'] = this_bin_id_cat['dnnz_bin']
     d = fits.open(file_shear.format(field=field))[1].data
 
     zbin     = d['hsc_y3_zbin']
     
-    #d = this_shape_cat[this_bin_id_cat['dnnz_bin'] == bin_id]
-
     # Basic columns needed by TXPipe
     objid    = d['object_id']
     ra       = d['i_ra']
@@ -108,22 +99,16 @@ for field in field_list:
     psf_e2   = 2*d['i_sdssshape_psf_shape12']/(d['i_sdssshape_psf_shape11'] + d['i_sdssshape_psf_shape22'])
     psf_T    = (d['i_sdssshape_psf_shape11']+d['i_sdssshape_psf_shape22'])
 
-    #g1       = (tmp_e1 - asel*psf_e1)/(1+msel)
-    #g2       = (tmp_e2 - asel*psf_e2)/(1+msel)
-    g1        = (tmp_e1 )/(1+msel)
-    g2        = (tmp_e2 )/(1+msel)
+    g1       = (tmp_e1 - asel*psf_e1)/(1+msel)
+    g2       = (tmp_e2 - asel*psf_e2)/(1+msel)
+    #g1        = (tmp_e1 )/(1+msel)
+    #g2        = (tmp_e2 )/(1+msel)
 
     # Extra column: psf subtracted e1/e2 ->  gives g1/g2 when fed into txpipe
     e1deb    = e1 - 2*mean_R*asel*psf_e1
     e2deb    = e2 - 2*mean_R*asel*psf_e2
 
-    # remove the 20 sq deg in GAMA09H because of excessive B-mode in this region.
-    #if field=='GAMA09H':
-    #    mask     = (ra>=132.5) & (ra<=140.) & (dec>=1.6) & (dec<5.2) | (zbin<1)
-    #    mask     = ~mask
-    #else:
-    #    mask     = (zbin<1)
-    #    mask     = ~mask     
+    # mask
     mask     = (zbin<1)
     mask     = ~mask     
    
@@ -175,30 +160,6 @@ with h5py.File(file_out_shear, 'w') as f:
     f['shear/s2n']          = np.asarray(tot_magerr_i)    # Just place a copy of s?n in i-band
     f['shear/snr_i']        = np.asarray(tot_magerr_i) 
     f['shear/weight']       = np.asarray(tot_weight) 
-    #f['stars/mag_r']       = 
-    #f['stars/mag_err_r']   = 
-    #f['stars/snr_r']       = 
-    #f['stars/wl_fulldepth_fullcolor'] = np.concatenate([r_dec,u_dec])
-    
-
-# e1gal = (e1/2R - c1)
-# e2gal = (e2/2R - c2)
-# g1 = ( (e1/2R - c1) - asel*psf_e1)/(1+msel)
-# g2 = ( (e1/2R - c1) - asel*psf_e2)/(1+msel)
-
-
-
-#<KeysViewHDF5 ['T', 'c1', 'c2', 'dec', 'flags', 'g1', 'g2', 'lensfit_weight', 'm', 'mag_err_i', 'mag_err_r', 'mag_i', 'mag_r', 'mean_z', 'objectId', 'psf_T_mean', 'psf_g1', 'psf_g2', 'ra', 'redshift_true', 's2n', 'sigma_e', 'snr_i', 'snr_r', 'weight', 'wl_fulldepth_fullcolor']>
-
-
-#table_origin = vstack(table_list)
-
-# remove the 20 sq deg in GAMA09H because of excessive B-mode in this region. 
-#mm=(table_origin['ra']>=132.5)&(table_origin['ra']<=140.)&(table_origin['dec']>=1.6)&(table_origin['dec']<5.2)
-#mm=~mm
-#table_origin=table_origin[mm]
-
-#write_table(table_origin, 'data/egal.fits')
 
 #----------------- Precalibrated shear catalog --------------------
 print("-------------------------------------------------------")
