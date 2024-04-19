@@ -378,6 +378,8 @@ print('Saved: %s'%file_out_star_nosnrcut_withareacut)
 #----------------- Star catalog (resv) --------------------
 print("-------------------------------------------------------")
 print("Creating star catalog with snr cut (Tianqing's catalog)")
+# Note Tianqing's paper does e_psf x M4 which i.e. not g_psf
+# So there there should be no factor of 1/2
 
 catalog  = pd.read_csv(file_star_resv, header = 0)
 
@@ -395,16 +397,16 @@ r_ra, r_dec  = catalog['i_ra'], catalog['i_dec']
 r_star_mxx = catalog['i_sdssshape_shape11']
 r_star_myy = catalog['i_sdssshape_shape22']
 r_star_mxy = catalog['i_sdssshape_shape12']
-r_star_e1  = 0.5*(r_star_mxx-r_star_myy)/(r_star_mxx+r_star_myy)
-r_star_e2  = 0.5*2*r_star_mxy/(r_star_mxx + r_star_myy)
+r_star_e1  = (r_star_mxx-r_star_myy)/(r_star_mxx+r_star_myy)
+r_star_e2  = 2*r_star_mxy/(r_star_mxx + r_star_myy)
 r_star_T   = (r_star_mxx+r_star_myy)
 
 # extract model_e1, model_e2
 r_psf_mxx  = catalog['i_sdssshape_psf_shape11']
 r_psf_myy  = catalog['i_sdssshape_psf_shape22']
 r_psf_mxy  = catalog['i_sdssshape_psf_shape12']
-r_psf_e1   = 0.5*(r_psf_mxx-r_psf_myy)/(r_psf_mxx+r_psf_myy)
-r_psf_e2   = 0.5*2*r_psf_mxy/(r_psf_mxx +r_psf_myy)
+r_psf_e1   = (r_psf_mxx-r_psf_myy)/(r_psf_mxx+r_psf_myy)
+r_psf_e2   = 2*r_psf_mxy/(r_psf_mxx +r_psf_myy)
 r_psf_T    = (r_star_mxx+r_star_myy)
 
 # extract diff_e1, diff_e2
@@ -418,6 +420,13 @@ r_psf_m13 = catalog['model_moment13']
 r_psf_m31 = catalog['model_moment31']
 r_psf_M4_e1 = (r_psf_m40-r_psf_m04)
 r_psf_M4_e2 = (r_psf_m13+r_psf_m31)*2
+
+r_star_m40 = catalog['star_moment40'] 
+r_star_m04 = catalog['star_moment04']
+r_star_m13 = catalog['star_moment13']
+r_star_m31 = catalog['star_moment31']
+r_star_M4_e1 = (r_star_m40-r_star_m04)
+r_star_M4_e2 = (r_star_m13+r_star_m31)*2
 
 #----------------- Star catalog (used) --------------------
 catalog  = pd.read_csv(file_star_used, header = 0)
@@ -433,16 +442,16 @@ u_ra, u_dec  = catalog['i_ra'], catalog['i_dec']
 u_star_mxx = catalog['i_sdssshape_shape11']
 u_star_myy = catalog['i_sdssshape_shape22']
 u_star_mxy = catalog['i_sdssshape_shape12']
-u_star_e1  =  0.5*(u_star_mxx-u_star_myy)/(u_star_mxx+u_star_myy)
-u_star_e2  =  0.5*2*u_star_mxy/(u_star_mxx + u_star_myy)
+u_star_e1  =  (u_star_mxx-u_star_myy)/(u_star_mxx+u_star_myy)
+u_star_e2  =  2*u_star_mxy/(u_star_mxx + u_star_myy)
 u_star_T   =  (u_star_mxx+u_star_myy)
 
 # extract model_e1, model_e2
 u_psf_mxx  = catalog['i_sdssshape_psf_shape11']
 u_psf_myy  = catalog['i_sdssshape_psf_shape22']
 u_psf_mxy  = catalog['i_sdssshape_psf_shape12']
-u_psf_e1   = 0.5*(u_psf_mxx-u_psf_myy)/(u_psf_mxx+u_psf_myy)
-u_psf_e2   = 0.5*2*u_psf_mxy/(u_psf_mxx +u_psf_myy)
+u_psf_e1   = (u_psf_mxx-u_psf_myy)/(u_psf_mxx+u_psf_myy)
+u_psf_e2   = 2*u_psf_mxy/(u_psf_mxx +u_psf_myy)
 u_psf_T    = (u_psf_mxx+u_psf_myy)
 
 # extract diff_e1, diff_e2
@@ -456,6 +465,13 @@ u_psf_m13 = catalog['model_moment13']
 u_psf_m31 = catalog['model_moment31']
 u_psf_M4_e1 = (u_psf_m40-u_psf_m04)
 u_psf_M4_e2 = (u_psf_m13+u_psf_m31)*2
+
+u_star_m40 = catalog['star_moment40'] 
+u_star_m04 = catalog['star_moment04']
+u_star_m13 = catalog['star_moment13']
+u_star_m31 = catalog['star_moment31']
+u_star_M4_e1 = (u_star_m40-u_star_m04)
+u_star_M4_e2 = (u_star_m13+u_star_m31)*2
 
 # Compute the total number of stars and create a flag column
 totstars   = len(u_ra)+len(r_ra) 
@@ -474,14 +490,17 @@ with h5py.File(file_out_star, 'w') as f:
     f['stars/dec']                   = np.concatenate([r_dec,u_dec])
     f['stars/calib_psf_reserved']    = flag_resv
     f['stars/calib_psf_used']        = flag_used
-    f['stars/measured_e1']           = np.concatenate([r_star_e1  ,  u_star_e1])
-    f['stars/measured_e2']           = np.concatenate([-r_star_e2 , -u_star_e2])
-    f['stars/measured_T']            = np.concatenate([r_star_T   ,  u_star_T])
-    f['stars/model_e1']              = np.concatenate([r_psf_e1   ,  u_psf_e1])
-    f['stars/model_e2']              = np.concatenate([-r_psf_e2  , -u_psf_e2])
-    f['stars/model_T']               = np.concatenate([r_psf_T    ,  u_psf_T])
-    f['stars/model_moment4_e1']      = np.concatenate([r_psf_M4_e1,  u_psf_M4_e1])
-    f['stars/model_moment4_e2']      = np.concatenate([r_psf_M4_e2,  u_psf_M4_e2])
+    f['stars/measured_e1']           = np.concatenate([r_star_e1   ,  u_star_e1])
+    f['stars/measured_e2']           = np.concatenate([-r_star_e2  , -u_star_e2])
+    f['stars/measured_T']            = np.concatenate([r_star_T    ,  u_star_T])
+    f['stars/model_e1']              = np.concatenate([r_psf_e1    ,  u_psf_e1])
+    f['stars/model_e2']              = np.concatenate([-r_psf_e2   , -u_psf_e2])
+    f['stars/model_T']               = np.concatenate([r_psf_T     ,  u_psf_T])
+    f['stars/model_moment4_e1']      = np.concatenate([r_psf_M4_e1 ,  u_psf_M4_e1])
+    f['stars/model_moment4_e2']      = np.concatenate([r_psf_M4_e2 ,  u_psf_M4_e2])
+    f['stars/measured_moment4_e1']   = np.concatenate([r_star_M4_e1,  u_star_M4_e1])
+    f['stars/measured_moment4_e2']   = np.concatenate([r_star_M4_e2,  u_star_M4_e2])
+    # This is follwoing the sign of M4 used in Tianqing's paper.
 
 print('Total number of psf stars         : %d'%(np.sum(np.asarray(flag_used))) )
 print('Total number of non-psf stars     : %d'%(np.sum(np.asarray(flag_resv))) )
