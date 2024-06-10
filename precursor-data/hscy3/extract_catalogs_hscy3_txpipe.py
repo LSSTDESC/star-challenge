@@ -1,11 +1,48 @@
-# https://github.com/LSSTDESC/star-challenge.git
-# Based on script written by Tianqing/Xiangchong 
-# Main directory 
-# /global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3/
+# This scripts takes the publicly available HSC-Y3
+# catalog and transforms it into a formast that TXPipe
+# understands. It is based on scripts written by Tianqing/Xiangchong 
+#
+# The precimputed version can be found in  
+# Perlmutter:/global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3
+
 import os, sys, git, h5py
 import numpy as np
+import healpy as hp
 import pandas as pd
 from astropy.io import fits
+
+def rd2tp(ra,dec):
+    """Convert ra,dec -> tht,phi"""
+    tht = (-dec+90.0)/180.0*np.pi
+    phi = ra/180.0*np.pi
+    return tht,phi
+
+def tp2rd(tht,phi):
+    """Convert tht,phi -> ra,dec"""
+    ra  = phi/np.pi*180.0
+    dec = -1*(tht/np.pi*180.0-90.0)
+    return ra,dec
+
+def spherical_pointpick(mask,dens_target):
+    """ Populate until we hit deseired density """
+    nside        = hp.npix2nside(mask.shape[0])
+    area_arcmin2 = np.sum(mask)/mask.shape[0]*(180/np.pi)**2*4*np.pi*60**2
+    dens   = 0
+    totra  = []
+    totdec = []
+    while dens<dens_target:
+        u   = np.random.uniform(low=0,high=1,size=5000000)
+        v   = np.random.uniform(low=0,high=1,size=5000000)
+        phi = 2*np.pi*u
+        tht = np.arccos(2*v-1)
+        pix = hp.ang2pix(nside,tht,phi)
+        idx = np.where(mask[pix]>0)[0]
+        ra,dec = tp2rd(tht[idx],phi[idx]) 
+        totra  += np.ndarray.tolist(ra)
+        totdec += np.ndarray.tolist(dec)
+        dens    = len(totra)/area_arcmin2
+        print("current density: %.3f pts/arcmin2"%(dens))
+    return totra,totdec
 
 # Extract git hash, which will be saved in the header
 repo  = git.Repo('./',search_parent_directories=True)
@@ -23,6 +60,7 @@ file_shear        = '/global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/
 
 # Output catalogs in TXPipe format
 file_out_shear         = '/global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3/shear/txpipe_allfield_shear.h5'
+file_out_random        = '/global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3/shear/random_cats.hdf5'
 file_out_star          = '/global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3/star/catalog/txpipe_allfield_star.h5'
 file_out_star_nosnrcut = '/global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3/star/catalog/txpipe_allfield_star_nosnrcut.h5'
 file_out_star_nosnrcut_withareacut = '/global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3/star/catalog/txpipe_allfield_star_nosnrcut_withareacut.h5'
@@ -31,36 +69,41 @@ file_out_star_nosnrcut_withareacut = '/global/cfs/cdirs/lsst/groups/WL/projects/
 print("-------------------------------------------------------")
 print("Creating shear catalog (Xiangchong's catalog)")
 
+# Name of sub-fields
 field_list = ['GAMA09H', 'GAMA15H', 'HECTOMAP', 'WIDE12H', 'VVDS', 'XMM']
 
+# Precomputed mulitiplicative and additive biases 
 asel_list  = np.array([-99, 0.005757300075048228, 0.007966889498601236, 0.008428564522033983,  0.008382723879301538])
 msel_list  = np.array([-99, 0.01711262019090257 , 0.018377595498915943, 0.011807321550085953, -0.0006360553708744804])
 
 table_list = []
 
 # Initialize arrays
-tot_objid   = []
-tot_ra      = []
-tot_dec     = []
-tot_sigma_e = []
-tot_m       = []
-tot_c1      = []
-tot_c2      = []
-tot_e1      = []
-tot_e2      = []
-tot_g1      = []
-tot_g2      = []
-tot_weight  = []
-tot_T       = []
-tot_objID   = []
-tot_psf_e1  = []
-tot_psf_e2  = []
-tot_psf_T   = []
-tot_mag_i   = []
-tot_magerr_i= []
-tot_flag    = []
-tot_mean_z  = []
-
+tot_objid     = []
+tot_ra        = []
+tot_dec       = []
+tot_sigma_e   = []
+tot_m         = []
+tot_c1        = []
+tot_c2        = []
+tot_e1        = []
+tot_e2        = []
+tot_g1        = []
+tot_g2        = []
+tot_aselepsf1 = []
+tot_aselepsf2 = []
+tot_msel      = []
+tot_weight    = []
+tot_T         = []
+tot_objID     = []
+tot_psf_e1    = []
+tot_psf_e2    = []
+tot_psf_T     = []
+tot_mag_i     = []
+tot_magerr_i  = []
+tot_flag      = []
+tot_mean_z    = []
+tot_sn        = []
 
 for field in field_list:
 
@@ -75,16 +118,17 @@ for field in field_list:
     dec      = d['i_dec']
     sigma_e  = d['i_hsmshaperegauss_derived_rms_e']
     weight   = d['i_hsmshaperegauss_derived_weight']
-    m        = msel_list[zbin]
+    m        = d['i_hsmshaperegauss_derived_shear_bias_m']
     c1       = d['i_hsmshaperegauss_derived_shear_bias_c1']
     c2       = d['i_hsmshaperegauss_derived_shear_bias_c2']
     e1       = d['i_hsmshaperegauss_e1']
     e2       = d['i_hsmshaperegauss_e2']
-    T        = d['i_sdssshape_psf_shape11']+d['i_sdssshape_psf_shape22']
-    mag_i    = d['i_cmodel_flux']
-    magerr_i = d['i_cmodel_fluxerr']
+    T        = d['i_sdssshape_shape11']+d['i_sdssshape_shape22']
+    mag_i    = d['i_cmodel_mag']
+    magerr_i = d['i_cmodel_magerr']
     mean_z   = zbin
-    flag     = d['weak_lensing_flag']
+    flag     = 1-d['weak_lensing_flag'] # 1 ==valid 0==invalid
+    sn       = d['i_cmodel_flux']/d['i_cmodel_fluxerr']
     
     # Extra column: precalibrated g1/g2
     R        = 1 - sigma_e**2
@@ -104,14 +148,14 @@ for field in field_list:
     #g1        = (tmp_e1 )/(1+msel)
     #g2        = (tmp_e2 )/(1+msel)
 
-    # Extra column: psf subtracted e1/e2 ->  gives g1/g2 when fed into txpipe
-    e1deb    = e1 - 2*mean_R*asel*psf_e1
-    e2deb    = e2 - 2*mean_R*asel*psf_e2
+    # Extra column
+    aselepsf1 = asel*psf_e1
+    aselepsf2 = asel*psf_e2
 
     # mask
-    mask     = (zbin<1)
-    mask     = ~mask     
-   
+    mask     = ((ra>=132.5) & (ra<=140.) & (dec>=1.6) & (dec<5.2)) | (zbin<1)
+    mask     = ~mask
+    
     # Append to the total list
     tot_objid    += list(objid[mask])
     tot_ra       += list(ra[mask])
@@ -120,10 +164,13 @@ for field in field_list:
     tot_m        += list(m[mask])
     tot_c1       += list(c1[mask])
     tot_c2       += list(c2[mask])
-    tot_e1       += list(e1deb[mask]) # This is feeding in pdf subtracted debiased e1/e2
-    tot_e2       += list(e2deb[mask]) # This is feeding in pdf subtracted debiased e1/e2
-    tot_g1       += list(g1[mask])
-    tot_g2       += list(g2[mask])
+    tot_e1       += list(e1[mask]) # This is feeding in pdf subtracted debiased e1/e2
+    tot_e2       += list(e2[mask]) # This is feeding in pdf subtracted debiased e1/e2
+    tot_g1       += list(g1[mask])    # This doesnt get used
+    tot_g2       += list(g2[mask])    # This doesnt get used
+    tot_aselepsf1+= list(aselepsf1[mask])  
+    tot_aselepsf2+= list(aselepsf2[mask])  
+    tot_msel     += list(msel[mask])  
     tot_weight   += list(weight[mask])
     tot_T        += list(T[mask])
     tot_psf_e1   += list(psf_e1[mask])
@@ -132,20 +179,25 @@ for field in field_list:
     tot_mag_i    += list(mag_i[mask])
     tot_magerr_i += list(magerr_i[mask])
     tot_mean_z   += list(mean_z[mask])
-    tot_flag     += list(flag[mask])        
+    tot_flag     += list(flag[mask])      
+    tot_sn       += list(sn[mask])      
+      
 
 # Create a hdf5 file. This will contain both reserved and used stars.
 with h5py.File(file_out_shear, 'w') as f:
     g = f.create_group("provenance")
     f.create_group("shear")
     f.attrs['githash']      = sha
-    f['shear'].attrs['catalog_type'] = 'hsc' # This gets read in data_types/types.py
+    f['shear'].attrs['catalog_type'] = 'hsc'          # This gets read in data_types/types.py
     f['shear/objectId']     = np.asarray(tot_objid)
     f['shear/ra']           = np.asarray(tot_ra)
     f['shear/dec']          = np.asarray(tot_dec)
     f['shear/flags']        = np.asarray(tot_flag)
-    f['shear/g1']           = np.asarray(tot_e1)
-    f['shear/g2']           = np.asarray(tot_e1)
+    f['shear/g1']           = np.asarray(tot_e1)      # Note here that we are saving e1/e2 not g1/g2
+    f['shear/g2']           = np.asarray(tot_e2)
+    f['shear/aselepsf1']    = np.asarray(tot_aselepsf1)      # Note here that we are saving e1/e2 not g1/g2
+    f['shear/aselepsf2']    = np.asarray(tot_aselepsf2)
+    f['shear/msel']         = np.asarray(tot_msel)
     f['shear/T']            = np.asarray(tot_T)
     f['shear/c1']           = np.asarray(tot_c1)
     f['shear/c2']           = np.asarray(tot_c2)
@@ -157,9 +209,33 @@ with h5py.File(file_out_shear, 'w') as f:
     f['shear/psf_g2']       = np.asarray(tot_psf_e2)
     f['shear/psf_T_mean']   = np.asarray(tot_psf_T)
     f['shear/sigma_e']      = np.asarray(tot_sigma_e) 
-    f['shear/s2n']          = np.asarray(tot_magerr_i)    # Just place a copy of s?n in i-band
-    f['shear/snr_i']        = np.asarray(tot_magerr_i) 
+    f['shear/s2n']          = np.asarray(tot_sn)       # Just place a copy of s?n in i-band
+    f['shear/snr_i']        = np.asarray(tot_sn) 
     f['shear/weight']       = np.asarray(tot_weight) 
+
+
+
+#----------------------- Random catalog -----------------------
+# Generate mask using RA/DEC of source galaxies and pick point
+# randomly that fall onto the mask. This is mainly to feed into
+# TXPipe to generate jackknife patch centers.
+
+dens    = 10 # pts/arcmin2
+tht,phi = rd2tp( np.asarray(tot_ra), np.asarray(tot_dec) )
+pix     = hp.ang2pix(1024,tht,phi)
+mask    = np.bincount(pix,minlength=hp.nside2npix(1024))
+mask[mask>0]=1
+
+rand_ra,rand_dec = spherical_pointpick(mask,dens)
+
+with h5py.File(file_out_random, 'w') as f:
+    g = f.create_group("provenance")
+    f.create_group("randoms")
+    f['randoms/bin'] = np.random.randint(0,high=3,size=len(rand_ra))
+    f['randoms/comoving_distance'] = np.asarray(np.ones_like(rand_ra)*900)
+    f['randoms/ra']  = np.asarray(rand_ra)
+    f['randoms/dec'] = np.asarray(rand_dec)
+    f['randoms/z']   = np.asarray(np.ones_like(rand_ra)*0.3)
 
 #----------------- Precalibrated shear catalog --------------------
 print("-------------------------------------------------------")
@@ -178,7 +254,6 @@ tot_psf_T   = []
 tot_flag_used  = []
 tot_flag_resv  = []
 tot_flag_resv2 = []
-
 
 for field in field_list:
 
@@ -512,40 +587,4 @@ print('Saved: %s'%file_out_star)
 # and what is saved is -de1, -de2
 
 
-'''
--------------------------------------------------------
-Numbers quoted in HSC-Y3 catalog paper
-Total number of psf stars         : 2260229
-Total number of non-psf stars     : 186529
-Total number of fgcm non-psf stars: 87131
--------------------------------------------------------
-Creating star catalog without snr cut
-Processing GAMA09H
-Processing GAMA15H
-Processing HECTOMAP
-Processing WIDE12H
-Processing VVDS
-Processing XMM
-Total number of psf stars         : 2210676
-Total number of non-psf stars     : 181331
-Total number of fgcm non-psf stars: 84434
-Saved: /global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3/star/catalog/txpipe_allfield_star_nosnrcut.h5
--------------------------------------------------------
-Creating star catalog without snr cut (but with area cut and blacklisted stars)
-Processing GAMA09H
-Processing GAMA15H
-Processing HECTOMAP
-Processing WIDE12H
-Processing VVDS
-Processing XMM
-Total number of psf stars         : 2118183 
-Total number of non-psf stars     : 171735
-Total number of fgcm non-psf stars: 79704
-Saved: /global/cfs/cdirs/lsst/groups/WL/projects/txpipe-sys-tests/hsc-y3/star/catalog/txpipe_allfield_star_nosnrcut_withareacut.h5
--------------------------------------------------------
-Creating star catalog with snr cut (Tianqing's catalog)
-Total number of psf stars         : 2118183
-Total number of non-psf stars     : 132687
--------------------------------------------------------
-'''
-
+print('Done')
