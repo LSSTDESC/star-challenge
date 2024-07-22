@@ -482,7 +482,7 @@ r_psf_myy  = catalog['i_sdssshape_psf_shape22']
 r_psf_mxy  = catalog['i_sdssshape_psf_shape12']
 r_psf_e1   = (r_psf_mxx-r_psf_myy)/(r_psf_mxx+r_psf_myy)
 r_psf_e2   = 2*r_psf_mxy/(r_psf_mxx +r_psf_myy)
-r_psf_T    = (r_star_mxx+r_star_myy)
+r_psf_T    = (r_psf_mxx+r_psf_myy)
 
 # extract diff_e1, diff_e2
 r_de1      = r_psf_e1 - r_star_e1
