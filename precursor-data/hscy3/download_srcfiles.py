@@ -66,6 +66,10 @@ if __name__ == "__main__":
     password = str(sys.argv[2])
 
     home = get_link('https://hsc-release.mtk.nao.ac.jp/archive/filetree/pdr3_wide/','0',username,password)
+    
+    # Comment this line out if ALL the folders are needed.
+    # For out purposes we only need a few i-band folders
+    home=[home[i] for i in (1,13,17,18,25)]
 
     for sub in home:
         subsub  = get_link(sub,'HSC',username,password)[0]+'output/'
